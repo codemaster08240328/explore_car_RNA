@@ -1,11 +1,28 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, ImageBackground } from 'react-native'
-import { Icon } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import GridView from 'react-native-super-grid';
 
 import { Header } from '../../component';
 
 export default class Explore extends Component {
+
+  constructor(props){
+    super(props);
+
+
+    this.handleDrawer = this.handleDrawer.bind(this);
+    this.movePrevScreen = this.movePrevScreen.bind(this);
+  }
+  
+  handleDrawer(){
+    this.props.navigation.openDrawer();
+  }
+
+  movePrevScreen(){
+    this.props.navigation.goBack();
+  }
+
   render() {
     const items = [
       { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
@@ -33,8 +50,8 @@ export default class Explore extends Component {
                 <Text style={{ fontSize: 12, color: '#007cca', fontWeight: '600', }}>{item.name}</Text>
               </View>
               <View style={styles.itemInfo}>
-                <Text style={{ fontSize: 12, color: '#007cca' }}>2018</Text>
-                <Text style={{ fontSize: 12, color: '#007cca' }}>7140km</Text>
+                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>2018</Text>
+                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>7140km</Text>
               </View>
               <View style={{ flex: 5, flexDirection: 'row' }}>
                 <ImageBackground 
@@ -45,8 +62,16 @@ export default class Explore extends Component {
                   <Icon name='md-heart-outline' type='ionicon' size={20} color='white'/>
                 </ImageBackground>
               </View>
-              <View style={styles.itemInfo}>
-                <Text style={{ fontSize: 12, color: '#007cca' }}>AED 76,670</Text>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={styles.itemPrice}>
+                  <Text style={{ fontSize: 12, color: '#ff0a0a' }}>AED 76,670</Text>
+                  <Button title='Detail' backgroundColor='#007cca' 
+                          buttonStyle={{height:2, padding:7}} 
+                          containerViewStyle={{marginRight: 0}} 
+                          textStyle={{fontSize: 10}}
+                          onPress={() => this.props.navigation.navigate('Detail',{ name: item.name})}
+                  />
+                </View>
               </View>
             </View>
             )}
@@ -71,8 +96,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   itemContainer: {
-    paddingTop: 10,
-    paddingBottom: 10,    
+    paddingTop: 5,
+    paddingBottom: 5,    
     height: 150,
     backgroundColor: 'white',
     borderWidth: 1,
@@ -97,6 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 5,
     paddingRight: 5,
+    paddingBottom: 5
   },
   itemImage: {
     flex:1, 
@@ -105,5 +131,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end'
+  },
+  itemPrice: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 5,
   }
 })

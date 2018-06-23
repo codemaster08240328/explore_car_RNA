@@ -1,29 +1,45 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { createStackNavigator, TabBarBottomProps, createMaterialTopTabNavigator, createDrawerNavigator } from 'react-navigation'; 
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { createStackNavigator, TabBarBottomProps, createMaterialTopTabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation'; 
 import { Icon } from 'react-native-elements';
 import { Dimensions } from 'react-native'
+import { HeaderIcon } from './component'
 
-import Alerts from './screen/Alerts';
 import Favorites from './screen/Favorites';
 import Explore from './screen/Explore';
-import BlogCar from './screen/BlogCar';
-import CarValuator from './screen/CarValuator';
 import ContactUs from './screen/ContactUs';
-import Feedback from './screen/Feedback';
-import Invite from './screen/Invite';
 import Notifications from './screen/Notifications';
-import SellCar from './screen/SellCar';
+import Detail from './screen/Detail';
 import { DrawerLayout } from './component';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
-const Tab = createMaterialTopTabNavigator(
+const Exp = createStackNavigator(
   {
     Explore: { screen: Explore },
-    Alerts: { screen: Alerts },
-    Favorites: { screen: Favorites }
+    Detail: { screen: Detail }
+  },
+  {
+    headerMode: 'none'
+  }
+)
+
+const Favor = createStackNavigator(
+  {
+    Favorites: { screen: Favorites },
+    Detail: { screen: Detail }
+  },
+  {
+    headerMode: 'none'
+  }
+)
+
+
+const Tab = createMaterialTopTabNavigator(
+  {
+    Explore: { screen: Exp },
+    Favorites: { screen: Favor }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -34,10 +50,6 @@ const Tab = createMaterialTopTabNavigator(
           iconName = `ios-car`;
           iconType = 'ionicon';
           iconSize = 30;
-        } else if (routeName === 'Alerts') {
-          iconName = `bell`;
-          iconType = 'font-awesome';
-          iconSize = 25;
         }else if (routeName === 'Favorites') {
           iconName = `md-heart`;
           iconType = 'ionicon';
@@ -67,43 +79,76 @@ const Tab = createMaterialTopTabNavigator(
   }
 )
 
+const customDrawerContent = (props)=>(
+  <View style={styles.container}>
+    <View style={styles.drawerheader}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <HeaderIcon name='close' color='#7f7f7f' type='material-community' onPress={()=> { props.navigation.closeDrawer()}} />               
+      </View>
+      <View style = {styles.drawerheaderTilte}>    
+        <Text style={{ fontSize:17 }}>Menu</Text>                      
+      </View>            
+      <View style={{flex: 1}}></View>        
+    </View>
+    <View style = {styles.drawbody}>
+      <DrawerItems {...props}/>                        
+    </View>                
+  </View>
+);
+
 const Drawer = createDrawerNavigator(
   {
-    Tab: {
+    Home: {
       screen: Tab,
-
+      navigationOptions: {
+        drawerIcon: ({focused, tintColor}) => {
+          return <Icon type='font-awesome' name='home' color={focused?tintColor:'#007cca'}  size={30} />
+        }
+      }
     },
     Notifications: {
       screen: Notifications,
-    },
-    SellCar: {
-      screen: SellCar,
-    },
-    CarValuator: {
-      screen: CarValuator,
-    },
-    BlogCar: {
-      screen: BlogCar,
-    },  
-    Invite: {
-      screen: Invite,
+      navigationOptions: {
+        drawerIcon: ({focused, tintColor}) => {
+          return <Icon type='evilicon' name='bell' color={focused?tintColor:'#007cca'}  size={40} />
+        }
+      }
     },
     ContactUs: {
-      screen: ContactUs
-    },
-    Feedback: {
-      screen: Feedback,
+      screen: ContactUs,
+      navigationOptions: {
+        drawerIcon: ({focused, tintColor}) => {
+          return <Image source={require('./asset/image/contactUs.png')} tintColor={focused?tintColor:'#007cca'} resizeMode='stretch' style={{width:20, height:33}} />
+        },
+        drawerLabel: 'Contact Us'
+      },
     }
   },
   {
     drawerWidth: Dimensions.get('window').width,
+    drawerBackgroundColor: 'red',
+    headerMode: 'float',
+    contentComponent: customDrawerContent,
     contentOptions: {
       activeTintColor: 'white',
       activeBackgroundColor: '#007cca',
       inactiveTintColor: '#7f7f7f',
-      inactiveBackgroundColor: 'white'    
-    },
-    contentComponent: DrawerLayout
+      itemStyle: {
+        height: 40,
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderColor: '#7f7f7f',
+      },
+      itemsContainerStyle: {
+        paddingTop: 0,
+      },
+      iconContainerStyle: {
+        width: 40
+      }
+    }
   }
 )
 
@@ -115,3 +160,21 @@ export default class App extends Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container:{
+      backgroundColor:"#F9F9F9",
+      flex:1,
+  },
+  drawerheaderTilte:{
+      flex: 8,
+      flexDirection: 'row',
+      height: 45,
+      justifyContent: 'center',
+      alignItems: 'center',        
+  },
+  drawerheader: { 
+    flexDirection: 'row', 
+    backgroundColor:'#F9F9F9', 
+    borderBottomColor:'#7f7f7f', 
+    borderBottomWidth: 1}
+});

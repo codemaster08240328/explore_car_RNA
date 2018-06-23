@@ -4,7 +4,15 @@ import { Icon } from 'react-native-elements'
 
 
 export default class DrawerLayout extends React.Component {
-    render() {
+
+    navigateToScreen = (route) => () => {
+        const navigateAction = NavigationActions.navigate({
+          routeName: route
+        });
+        this.props.navigation.dispatch(navigateAction);
+    }
+
+    render() {        
         return (
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', borderColor:"#EFEFEF", backgroundColor:"#F9F9F9", borderBottomWidth: 1 }}>
@@ -25,47 +33,12 @@ export default class DrawerLayout extends React.Component {
                         />
                     </View>
                     <View style={styles.item}>
-                        <Text style={{ fontSize:17 }}>Sell Car</Text>
-                        <Image
-                            style={styles.itemImage}
-                            source={require('../../asset/image/filter.png')}
-                        />
-                    </View>  
-                    <View style={styles.item}>
-                        <Text style={{ fontSize:17 }}>Car Valuator</Text>
-                        <Image
-                            style={styles.itemImage}
-                            source={require('../../asset/image/filter.png')}
-                        />
-                    </View>  
-                    <View style={styles.item}>
-                        <Text style={{ fontSize:17 }}>Blog-Car Talks</Text>
-                        <Image
-                            style={styles.itemImage}
-                            source={require('../../asset/image/filter.png')}
-                        />
-                    </View>  
-                    <View style={styles.item}>
-                        <Text style={{ fontSize:17 }}>Invite Friends</Text>
-                        <Image
-                            style={styles.itemImage}
-                            source={require('../../asset/image/filter.png')}
-                        />
-                    </View>
-                    <View style={styles.item}>
                         <Text style={{ fontSize:17 }}>Contact Us</Text>
                         <Image
                             style={styles.itemImage}
                             source={require('../../asset/image/filter.png')}
                         />
-                    </View>  
-                    <View style={styles.item}>
-                        <Text style={{ fontSize:17 }}>Feedback</Text>
-                        <Image
-                            style={styles.itemImage}
-                            source={require('../../asset/image/filter.png')}
-                        />
-                    </View>                                
+                    </View>                               
                 </View>                
             </View>
         );
