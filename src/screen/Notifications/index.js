@@ -8,6 +8,9 @@ export default class Notifications extends Component {
     return (
       <View style={styles.container}>
         <CommonHeader title='Notifications' rightIconName='menu' navigation={this.props.navigation}/>
+        <View >
+        </View>
+      
       </View>
     )
   }

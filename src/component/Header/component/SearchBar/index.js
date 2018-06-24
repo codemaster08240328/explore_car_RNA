@@ -35,17 +35,17 @@ export default class SearchBar extends Component {
 
 const styles = StyleSheet.create({
     searchIcon: {
-        fontSize: 25,
+        fontSize: 30,
         top: 0, 
-        left: 250,
+        left: 225,
         color: '#94c7e7',
     },
     inputStyle: {
         backgroundColor: 'transparent',
         color: 'white',  
         margin: 0, 
-        height: 26, 
-        fontSize: 12 , 
+        height: 30, 
+        fontSize: 15 , 
         padding: 0, 
         paddingLeft: 10
     },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderTopWidth: 2, 
         borderColor: '#94c7e7', 
-        width: 280 ,
+        width: 260 ,
         borderBottomColor: '#94c7e7', 
         borderTopColor: '#94c7e7', 
         borderRadius: 5
