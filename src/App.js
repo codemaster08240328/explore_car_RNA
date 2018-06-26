@@ -15,7 +15,7 @@ import { DrawerLayout } from './component';
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
-const Exp = createStackNavigator(
+const Stock = createStackNavigator(
   {
     Explore: { screen: Explore },
     Detail: { screen: Detail }
@@ -38,15 +38,15 @@ const Favor = createStackNavigator(
 
 const Tab = createMaterialTopTabNavigator(
   {
-    Explore: { screen: Exp },
+    Stock: { screen: Stock },
     Favorites: { screen: Favor }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
-        let iconName, iconType;
-        if (routeName === 'Explore') {
+        let iconName, iconType, iconSize;
+        if (routeName === 'Stock') {
           iconName = `ios-car`;
           iconType = 'ionicon';
           iconSize = 30;

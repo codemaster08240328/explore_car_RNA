@@ -6,17 +6,6 @@ import { CommonHeader } from '../../component'
 
 export default class Notifications extends Component {
 
-  constructor(props){
-    super(props);
-
-
-    this.handleDrawer = this.handleDrawer.bind(this);
-  }
-  
-  handleDrawer(){
-    this.props.navigation.goBack();
-  }
-
   render() {
     const name = this.props.navigation.getParam('name', 'Peter');
     return (

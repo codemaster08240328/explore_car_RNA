@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ImageBackground } from 'react-native'
-import { Icon, Button } from 'react-native-elements';
-import GridView from 'react-native-super-grid';
-
-import { Header } from '../../component';
+import { Text, StyleSheet, View, ImageBackground, TouchableOpacity } from 'react-native'
+import { Icon, Button } from 'react-native-elements'
+import GridView from 'react-native-super-grid'
+import {FilterModal} from './component'
+import { Header } from '../../component'
 
 export default class Explore extends Component {
 
   constructor(props){
     super(props);
+    this.state={
+      isModalVisible: false
+    }
 
-
-    this.handleDrawer = this.handleDrawer.bind(this);
-    this.movePrevScreen = this.movePrevScreen.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
   
-  handleDrawer(){
-    this.props.navigation.openDrawer();
-  }
-
-  movePrevScreen(){
-    this.props.navigation.goBack();
+  toggleModal(){
+    this.setState({
+      isModalVisible: !this.state.isModalVisible
+    })
   }
 
   render() {
@@ -38,12 +37,13 @@ export default class Explore extends Component {
     ];
     return (
       <View style={styles.container}>
-        <Header/>
+        <Header navigation={this.props.navigation} toggleModal={this.toggleModal}/>
         <View style={styles.gridContainer}>
           <GridView
             itemDimension={130}
             items={items}
             style={styles.gridView}
+            spacing={5}
             renderItem={item => (
             <View style={styles.itemContainer}>
               <View style={styles.itemName}>
@@ -65,11 +65,12 @@ export default class Explore extends Component {
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 <View style={styles.itemPrice}>
                   <Text style={{ fontSize: 12, color: '#ff0a0a' }}>AED 76,670</Text>
-                  <Button title='Detail' backgroundColor='#007cca' 
-                          buttonStyle={{height:2, padding:7}} 
-                          containerViewStyle={{marginRight: 0}} 
-                          textStyle={{fontSize: 10}}
-                          onPress={() => this.props.navigation.navigate('Detail',{ name: item.name})}
+                  <Button 
+                    title='Detail' backgroundColor='#007cca' 
+                    buttonStyle={{height:2, padding:7}} 
+                    containerViewStyle={{marginRight: 0}} 
+                    textStyle={{fontSize: 10}}
+                    onPress={() => this.props.navigation.navigate('Detail',{ name: item.name})}
                   />
                 </View>
               </View>
@@ -77,6 +78,7 @@ export default class Explore extends Component {
             )}
           />
         </View>
+        <FilterModal isModalVisible={this.state.isModalVisible} toggleModal={this.toggleModal}/>
       </View>
     )
   }

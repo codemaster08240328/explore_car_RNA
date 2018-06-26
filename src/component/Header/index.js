@@ -7,12 +7,13 @@ export default class Header extends Component {
   render() {
     return (
       <Head
-        leftComponent={{ icon: 'filter', color: '#fff', type: 'font-awesome', size: 35 }}
+        leftComponent={{ icon: 'filter', color: '#fff', type: 'font-awesome', size: 30, onPress:this.props.toggleModal }}
         centerComponent={<SearchBar/>}
-        rightComponent={<Image source={require('../../asset/image/menu-arrow.png')} style={styles.headerMenu}/>}
-        outerContainerStyles={{ padding: 10, height: 50 }}
+        rightComponent={<Image source={require('../../asset/image/menu-arrow.png')}  style={styles.headerMenu}/>}
+        outerContainerStyles={{ padding: 10, height: 45, backgroundColor: '#007cca' }}
         innerContainerStyles={{ alignItems: 'center' }}
         statusBarProps={{ barStyle: 'light-content' }}
+        
       />
     )
   }
@@ -20,7 +21,7 @@ export default class Header extends Component {
 
 const styles = StyleSheet.create({
   headerMenu: {
-    width: 30,
-    height: 30
+    width: 35,
+    height: 25
   }
 });
