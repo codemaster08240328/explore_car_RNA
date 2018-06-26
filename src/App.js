@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { createStackNavigator, TabBarBottomProps, createMaterialTopTabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation'; 
+import { createStackNavigator, createMaterialTopTabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation'; 
 import { Icon } from 'react-native-elements';
 import { Dimensions } from 'react-native'
 import { HeaderIcon } from './component'
-
+import {Provider} from 'react-redux'
+import axios from 'axios'
+import configureStore from './ConfigureStore'
 import Favorites from './screen/Favorites';
 import Explore from './screen/Explore';
 import ContactUs from './screen/ContactUs';
 import Notifications from './screen/Notifications';
 import Detail from './screen/Detail';
-import { DrawerLayout } from './component';
+
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -19,8 +21,7 @@ const Stock = createStackNavigator(
   {
     Explore: { screen: Explore },
     Detail: { screen: Detail }
-  },
-  {
+  },  {
     headerMode: 'none'
   }
 )
@@ -118,9 +119,10 @@ const Drawer = createDrawerNavigator(
       screen: ContactUs,
       navigationOptions: {
         drawerIcon: ({focused, tintColor}) => {
-          return <Image source={require('./asset/image/contactUs.png')} tintColor={focused?tintColor:'#007cca'} resizeMode='stretch' style={{width:20, height:33}} />
+          return <Image source={require('./asset/image/contactUs.png')} tintColor={focused?tintColor:'#007cca'} resizeMode='stretch' style={focused?{width:20, height:33, tintColor:'white'}:{width:20, height:33, tintColor:'#007cca'}} />
         },
-        drawerLabel: 'Contact Us'
+        drawerLabel: 'Contact Us',
+        
       },
     }
   },
@@ -134,7 +136,7 @@ const Drawer = createDrawerNavigator(
       activeBackgroundColor: '#007cca',
       inactiveTintColor: '#7f7f7f',
       itemStyle: {
-        height: 40,
+        // height: 40,
         display: 'flex',
         flexDirection: 'row-reverse',
         alignItems: 'center',
@@ -155,7 +157,9 @@ const Drawer = createDrawerNavigator(
 export default class App extends Component {
   render() {
     return (
-      <Drawer/>
+      <Provider store = {configureStore}>
+        <Drawer/>
+      </Provider>
     );
   }
 }
