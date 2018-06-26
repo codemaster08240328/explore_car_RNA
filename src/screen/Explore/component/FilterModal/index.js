@@ -78,14 +78,14 @@ export default class FilterModal extends Component {
     render() {
         return (
             <Modal 
-                isVisible={this.props.isModalVisible} 
+                isVisible={this.props.isFilterModalVisible} 
                 backdropColor='#f3f3f3' 
                 backdropOpacity={1}
                 avoidKeyboard={true}
                 style={{margin: 0}}
             >
                 <View style={{ flex: 1 }}>
-                    <ModalHeader title='Filters' rightIconText='Clear' leftIconName='arrow-left' leftIconType='feather' toggleModal={this.props.toggleModal}/>
+                    <ModalHeader title='Filters' rightIconText='Clear' leftIconName='arrow-left' leftIconType='feather' toggleModal={this.props.toggleFilterModal}/>
                     <View style={{flex:1 }}>
                         <View style={{flex:4, padding: 10}}>
                             <View style={{flex:1}}>
@@ -298,8 +298,8 @@ export default class FilterModal extends Component {
                             </View>
                             <View style={{flex:2, flexDirection: 'row'}}>
                                 <View style={{flex:1}}>
-                                    <View style={{flex:2}}>
-                                        <TouchableOpacity style={{flex:1,flexDirection:'row', justifyContent: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeSedan')}>
+                                    <View style={{flex:2, alignItems: 'center', justifyContent: 'center'}}>
+                                        <TouchableOpacity style={{flex:1,flexDirection:'row', alignItems: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeSedan')}>
                                             <Image  
                                                 source={require('../../../../asset/image/Logo/nissan.png')}
                                                 style={styles.logoTypeImage}
@@ -312,8 +312,8 @@ export default class FilterModal extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1}}>
-                                    <View style={{flex:2, justifyContent: 'center'}}>
-                                        <TouchableOpacity style={{flex:1,flexDirection:'row', justifyContent: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeRoadster')}>
+                                    <View style={{flex:2, justifyContent: 'center', alignItems: 'center'}}>
+                                        <TouchableOpacity style={{flex:1,flexDirection:'row', alignItems: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeRoadster')}>
                                             <Image 
                                                 source={require('../../../../asset/image/Logo/mazda.png')}
                                                 style={styles.logoTypeImage} 
@@ -326,8 +326,8 @@ export default class FilterModal extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1}}>
-                                    <View style={{flex:2, justifyContent: 'center'}}>
-                                        <TouchableOpacity style={{flex:1,flexDirection:'row', justifyContent: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeHatchBack')}>
+                                    <View style={{flex:2, justifyContent: 'center', alignItems: 'center'}}>
+                                        <TouchableOpacity style={{flex:1,flexDirection:'row', alignItems: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeHatchBack')}>
                                             <Image 
                                                 source={require('../../../../asset/image/Logo/toyota.png')}
                                                 style={styles.logoTypeImage}    
@@ -340,8 +340,8 @@ export default class FilterModal extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1}}>
-                                    <View style={{flex:2, justifyContent: 'center'}}>
-                                        <TouchableOpacity style={{flex:1, flexDirection:'row', justifyContent: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeSportCar')}>
+                                    <View style={{flex:2, justifyContent: 'center', alignItems: 'center'}}>
+                                        <TouchableOpacity style={{flex:1, flexDirection:'row', alignItems: 'center'}} onPress={() => this.handleToggleMobileType('mobileTypeSportCar')}>
                                             <Image 
                                                 source={require('../../../../asset/image/Logo/honda.png')}
                                                 style={styles.logoTypeImage} 

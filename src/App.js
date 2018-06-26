@@ -12,7 +12,7 @@ import Explore from './screen/Explore';
 import ContactUs from './screen/ContactUs';
 import Notifications from './screen/Notifications';
 import Detail from './screen/Detail';
-
+import Splash from './screen/Splash';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -136,7 +136,6 @@ const Drawer = createDrawerNavigator(
       activeBackgroundColor: '#007cca',
       inactiveTintColor: '#7f7f7f',
       itemStyle: {
-        // height: 40,
         display: 'flex',
         flexDirection: 'row-reverse',
         alignItems: 'center',
@@ -154,12 +153,23 @@ const Drawer = createDrawerNavigator(
   }
 )
 
+const Total = createStackNavigator(
+  {
+    Splash: { screen: Splash },
+    Drawer: { screen: Drawer }
+  },
+  {
+    headerMode: 'none'
+  }
+)
+
 export default class App extends Component {
   render() {
     return (
       <Provider store = {configureStore}>
-        <Drawer/>
+        <Total/>
       </Provider>
+      
     );
   }
 }

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, ImageBackground, TouchableOpacity } from 'react-native'
 import { Icon, Button } from 'react-native-elements'
 import GridView from 'react-native-super-grid'
-import {FilterModal} from './component'
+import { FilterModal } from './component'
+import { SortModal } from './component'
 import { Header } from '../../component'
 
 export default class Explore extends Component {
@@ -10,15 +11,23 @@ export default class Explore extends Component {
   constructor(props){
     super(props);
     this.state={
-      isModalVisible: false
+      isFilterModalVisible: false,
+      isSortModalVisible: false
     }
 
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleFilterModal = this.toggleFilterModal.bind(this);
+    this.toggleSortModal = this.toggleSortModal.bind(this);
   }
   
-  toggleModal(){
+  toggleFilterModal(){
     this.setState({
-      isModalVisible: !this.state.isModalVisible
+      isFilterModalVisible: !this.state.isFilterModalVisible
+    })
+  }
+
+  toggleSortModal(){
+    this.setState({
+      isSortModalVisible: !this.state.isSortModalVisible
     })
   }
 
@@ -37,7 +46,7 @@ export default class Explore extends Component {
     ];
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} toggleModal={this.toggleModal}/>
+        <Header navigation={this.props.navigation} toggleFilterModal={this.toggleFilterModal} toggleSortModal={this.toggleSortModal}/>
         <View style={styles.gridContainer}>
           <GridView
             itemDimension={130}
@@ -78,7 +87,8 @@ export default class Explore extends Component {
             )}
           />
         </View>
-        <FilterModal isModalVisible={this.state.isModalVisible} toggleModal={this.toggleModal}/>
+        <FilterModal isFilterModalVisible={this.state.isFilterModalVisible} toggleFilterModal={this.toggleFilterModal}/>
+        <SortModal isSortModalVisible={this.state.isSortModalVisible} toggleSortModal={this.toggleSortModal}/>
       </View>
     )
   }

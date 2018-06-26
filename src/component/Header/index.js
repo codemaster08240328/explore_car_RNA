@@ -7,13 +7,17 @@ export default class Header extends Component {
   render() {
     return (
       <Head
-        leftComponent={{ icon: 'filter', color: '#fff', type: 'font-awesome', size: 30, onPress:this.props.toggleModal }}
+        leftComponent={{ icon: 'filter', color: '#fff', type: 'font-awesome', size: 30, onPress:this.props.toggleFilterModal }}
         centerComponent={<SearchBar/>}
+<<<<<<< HEAD
         rightComponent={<Image source={require('../../asset/image/menu-arrow.png')}  style={styles.headerMenu}/>}
         outerContainerStyles={(Platform.OS === 'ios')?iosstyles.container:style.container}
+=======
+        rightComponent={<Image source={require('../../asset/image/menu-arrow.png')}  style={styles.headerMenu} onPress={this.props.toggleSortModal}/> }
+        outerContainerStyles={{ padding: 10, height: 45, backgroundColor: '#007cca' }}
+>>>>>>> 0e727074a1c59d0df8a49f2d7b2fb930ccec6662
         innerContainerStyles={{ alignItems: 'center' }}
-        statusBarProps={{ barStyle: 'light-content' }}
-        
+        statusBarProps={{ barStyle: 'light-content' }}        
       />
     )
   }
