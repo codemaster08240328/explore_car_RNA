@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ImageBackground, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, View, ImageBackground, TouchableOpacity, Image } from 'react-native'
 import { Icon, Button } from 'react-native-elements'
 import GridView from 'react-native-super-grid'
 import { FilterModal } from './component'
 import { SortModal } from './component'
+import { PhoneModal } from './component'
 import { Header } from '../../component'
 
 export default class Explore extends Component {
@@ -12,11 +13,15 @@ export default class Explore extends Component {
     super(props);
     this.state={
       isFilterModalVisible: false,
-      isSortModalVisible: false
+      isSortModalVisible: false,
+      isPhoneModalVisible: false,
+      isEmailModalVisible: false
     }
 
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.toggleSortModal = this.toggleSortModal.bind(this);
+    this.togglePhoneModal = this.togglePhoneModal.bind(this);
+    this.toggleEmailModal = this.toggleEmailModal.bind(this);
   }
   
   toggleFilterModal(){
@@ -28,6 +33,18 @@ export default class Explore extends Component {
   toggleSortModal(){
     this.setState({
       isSortModalVisible: !this.state.isSortModalVisible
+    })
+  }
+
+  togglePhoneModal(){
+    this.setState({
+      isPhoneModalVisible: !this.state.isPhoneModalVisible
+    })
+  }
+
+  toggleEmailModal(){
+    this.setState({
+      isEmailModalVisible: !this.state.isEmailModalVisible
     })
   }
 
@@ -87,8 +104,20 @@ export default class Explore extends Component {
             )}
           />
         </View>
+        <View style={{position: 'absolute',justifyContent: 'space-between', width: 30, height: 150, top: '30%', left: 10}}>
+            <TouchableOpacity onPress={this.togglePhoneModal}>
+              <Image source={require('../../asset/image/phone.png')} style={styles.extraIcon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.togglePhoneModal}>
+              <Image source={require('../../asset/image/email.png')} style={styles.extraIcon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.toggleEmailModal}>
+              <Image source={require('../../asset/image/share.png')} style={styles.extraIcon}/>
+            </TouchableOpacity>  
+        </View>
         <FilterModal isFilterModalVisible={this.state.isFilterModalVisible} toggleFilterModal={this.toggleFilterModal}/>
         <SortModal isSortModalVisible={this.state.isSortModalVisible} toggleSortModal={this.toggleSortModal}/>
+        <PhoneModal isPhoneModalVisible={this.state.isPhoneModalVisible}  togglePhoneModal={this.togglePhoneModal}/>  
       </View>
     )
   }
@@ -153,5 +182,15 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 5,
+  },
+  extraIcon: {
+    height: 30, 
+    width: '100%', 
+    borderRadius: 15,
+    resizeMode: 'stretch',
+    shadowColor: 'black',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   }
 })
