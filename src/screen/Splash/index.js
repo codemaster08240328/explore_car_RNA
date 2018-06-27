@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Image } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
+import {connect} from 'react-redux'
+import { getDummyData } from '../../actions/getData'
+import { setFilterOptions } from '../../actions/filter'
 
-export default class Splash extends Component {
+
+class Splash extends Component {
   
     componentDidMount(){
+        this.props.dispatch(setFilterOptions(null));
+        this.props.dispatch(getDummyData());
         setTimeout(()=>{
             const resetAction = StackActions.reset({
                 index: 0,
@@ -73,4 +79,11 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: -1, height: 1},
         textShadowRadius: 10    
     }
-})
+});
+
+const mapStateToProps = (state)=>{
+    return {
+        state:state
+    }
+}
+export default connect(mapStateToProps)(Splash)

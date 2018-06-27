@@ -5,20 +5,48 @@ import GridView from 'react-native-super-grid'
 import { FilterModal } from './component'
 import { SortModal } from './component'
 import { Header } from '../../component'
-
-export default class Explore extends Component {
+import { connect } from 'react-redux'
+import { doFilter } from '../../actions/filter'
+ 
+class Explore extends Component {
 
   constructor(props){
     super(props);
     this.state={
       isFilterModalVisible: false,
-      isSortModalVisible: false
+      isSortModalVisible: false,
+      items:[],
+      search:'',
     }
-
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.toggleSortModal = this.toggleSortModal.bind(this);
+
   }
-  
+  componentDidMount(){
+    this.doFilter(this.props.data,this.props.filter);
+
+  }
+  componentWillReceiveProps(nextProps){
+    console.log("next====>",nextProps);
+    this.doFilter(nextProps.data,nextProps.filter);
+    
+  }
+  doFilter(data,filter){
+
+    var result=[];
+    data.map((item)=>{
+      if((item.mileage>filter.milleageMin)&&(item.mileage<filter.milleageMax)&&(item.price<filter.priceMax)&&(item.price>filter.priceMin)&&(item.year>filter.yearMin)&&
+          (item.year<filter.yearMax)&&filter.cartype.includes(item.mobileType)&&filter.brand.includes(item.brand)){
+            result.push(item);
+          }
+    })
+    
+    this.setState({
+      items:result
+    });
+
+  }
+
   toggleFilterModal(){
     this.setState({
       isFilterModalVisible: !this.state.isFilterModalVisible
@@ -31,26 +59,37 @@ export default class Explore extends Component {
     })
   }
 
+  _renderItem = ()=>{
+    var result = [];
+    // return this.state.items;
+    if(this.state.items.length==0){
+      return [];
+    }
+    this.state.items.map((item)=>{
+      var name = item.name.toLowerCase();
+      var search_txt = this.state.search.toLowerCase();
+      if(name.includes(search_txt))
+        result.push(item);
+    });
+    console.log(result);
+    return result;
+  }
+
+  handleChange = (query)=>{
+    this.setState({
+      search:query
+    })
+  }
+
   render() {
-    const items = [
-      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
-      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
-      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
-      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
-      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
-      { name: 'SUN FLOWER', code: '#f1c40f' }, { name: 'CARROT', code: '#e67e22' },
-      { name: 'ALIZARIN', code: '#e74c3c' }, { name: 'CLOUDS', code: '#ecf0f1' },
-      { name: 'CONCRETE', code: '#95a5a6' }, { name: 'ORANGE', code: '#f39c12' },
-      { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
-      { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
-    ];
+    var renderedItem = this._renderItem();
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} toggleFilterModal={this.toggleFilterModal} toggleSortModal={this.toggleSortModal}/>
+        <Header navigation={this.props.navigation} toggleFilterModal={this.toggleFilterModal} toggleSortModal={this.toggleSortModal} handleChange = {this.handleChange} value = {this.state.search}/>
         <View style={styles.gridContainer}>
           <GridView
             itemDimension={130}
-            items={items}
+            items={renderedItem}
             style={styles.gridView}
             spacing={5}
             renderItem={item => (
@@ -59,12 +98,12 @@ export default class Explore extends Component {
                 <Text style={{ fontSize: 12, color: '#007cca', fontWeight: '600', }}>{item.name}</Text>
               </View>
               <View style={styles.itemInfo}>
-                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>2018</Text>
-                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>7140km</Text>
+                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>{item.year}</Text>
+                <Text style={{ fontSize: 12, color: '#7f7f7f' }}>{item.mileage}</Text>
               </View>
               <View style={{ flex: 5, flexDirection: 'row' }}>
                 <ImageBackground 
-                  source={require('../../asset/image/car.png')}
+                  source={item.img}
                   imageStyle={{resizeMode: 'stretch'}}
                   style={styles.itemImage}
                 >
@@ -73,7 +112,7 @@ export default class Explore extends Component {
               </View>
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 <View style={styles.itemPrice}>
-                  <Text style={{ fontSize: 12, color: '#ff0a0a' }}>AED 76,670</Text>
+                  <Text style={{ fontSize: 12, color: '#ff0a0a' }}>AED {item.price}</Text>
                   <Button 
                     title='Detail' backgroundColor='#007cca' 
                     buttonStyle={{height:2, padding:7}} 
@@ -155,3 +194,13 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   }
 })
+
+function mapStateToProps(state){
+  return{
+    data:state.data.data,
+    filter:state.filter.filter,
+    state:state
+  }
+}
+
+export default connect(mapStateToProps)(Explore)

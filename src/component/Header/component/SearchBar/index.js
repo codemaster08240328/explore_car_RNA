@@ -22,12 +22,12 @@ export default class SearchBar extends Component {
                 icon = {{ name: 'search', color: 'white', style: styles.searchIcon }}
                 inputStyle={styles.inputStyle}
                 containerStyle={styles.containerStyle}
-                onChangeText={this.handleQueryChange}
+                onChangeText={(query)=>this.props.handleChange(query)}
                 onCancel={this.handleSearchCancel}
                 onClear={this.handleSearchClear}
                 placeholder='Type Make Model ...'
                 placeholderTextColor='#94c7e7'
-                value={this.state.query}                              
+                value={this.props.value}                              
             />
         )
     }

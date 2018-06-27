@@ -1,4 +1,5 @@
-export const FILTER = 'FILTER';
+export const SET_FILTER_OPTION = 'SET_FILTER_OPTION';
+export const SET_FILTER_INITIAL = 'SET_FILTER_INITIAL';
 export const GET_DATA_REQUEST = "GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_FAIL = 'GET_DATA_FAIL';

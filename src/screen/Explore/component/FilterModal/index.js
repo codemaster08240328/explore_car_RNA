@@ -3,24 +3,29 @@ import { Text, StyleSheet, View, TouchableOpacity, Dimensions, Platform, Image }
 import Modal from 'react-native-modal'
 import { ModalHeader } from '../../../../component'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import { connect } from 'react-redux';
+import { setFilterOptions } from '../../../../actions/filter';
 
-export default class FilterModal extends Component {
+class FilterModal extends Component {
 
     constructor(props){
         super(props);
         this.state = {
             multiYearValue: [2006, 2018],
-            multiMileageValue: [0, 150],
+            multiMileageValue: [0, 10],
             multiPriceValue: [0, 200],
-            mobileTypeSedan: false,
-            mobileTypeRoadster: false,
-            mobileTypeHatchBack: false,
-            mobileTypeSportCar: false,
-            mobileTypeCoupe: false,
-            mobileTypePickUp: false,
-            mobileTypeCabriolet: false,
-            MobileTypeMinivan: false
-
+            mobileTypeSedan: true,
+            mobileTypeRoadster: true,
+            mobileTypeHatchBack: true,
+            mobileTypeSportCar: true,
+            mobileTypeCoupe: true,
+            mobileTypePickUp: true,
+            mobileTypeCabriolet: true,
+            mobileTypeMinivan: true,
+            mobileNissan:true,
+            mobileMazda:true,
+            mobileToyota:true,
+            mobileHonda:true,
         }
         this.multiYearValuesChange = this.multiYearValuesChange.bind(this);
         this.multiMileageValuesChange = this.multiMileageValuesChange.bind(this);
@@ -42,8 +47,8 @@ export default class FilterModal extends Component {
             case 'mobileTypeSportCar':
                 this.setState({mobileTypeSportCar: !this.state.mobileTypeSportCar});
                 break;
-            case 'mobileTypeSportCar':
-                this.setState({mobileTypeSportCar: !this.state.mobileTypeSportCar});
+            case 'mobileTypeMinivan':
+                this.setState({mobileTypeMinivan: !this.state.mobileTypeMinivan});
                 break;
             case 'mobileTypeCoupe':
                 this.setState({mobileTypeCoupe: !this.state.mobileTypeCoupe});
@@ -53,6 +58,22 @@ export default class FilterModal extends Component {
                 break;
             case 'mobileTypeCabriolet':
                 this.setState({mobileTypeCabriolet: !this.state.mobileTypeCabriolet});
+                break;
+        }
+    } 
+    handleToggleBrand(brand){
+        switch (brand){
+            case 'mazda':
+                this.setState({mobileMazda: !this.state.mobileMazda});
+                break;
+            case 'nissan':
+                this.setState({mobileNissan: !this.state.mobileNissan});
+                break;
+            case 'toyota':
+                this.setState({mobileToyota: !this.state.mobileToyota});
+                break;
+            case 'honda':
+                this.setState({mobileHonda: !this.state.mobileHonda});
                 break;
         }
     } 
@@ -75,6 +96,36 @@ export default class FilterModal extends Component {
         });
     }
 
+    applyBtnHandle = () => {
+        var filter = {
+            yearMin:this.state.multiYearValue[0],
+            yearMax:this.state.multiYearValue[1],
+            milleageMin:this.state.multiMileageValue[0]*1000,
+            milleageMax:this.state.multiMileageValue[1]*1000,
+            priceMin:this.state.multiPriceValue[0]*1000,
+            priceMax:this.state.multiPriceValue[1]*1000,
+            cartype:[],
+            brand:[],
+        }
+        if(this.state.mobileTypeMinivan) filter.cartype.push('minivan');
+        if(this.state.mobileTypeSedan) filter.cartype.push('sedan');
+        if(this.state.mobileTypePickUp) filter.cartype.push('pickup');
+        if(this.state.mobileTypeCoupe) filter.cartype.push('coupe');
+        if(this.state.mobileTypeSportCar) filter.cartype.push('sport car');
+        if(this.state.mobileTypeHatchBack) filter.cartype.push('hatchback');
+        if(this.state.mobileTypeRoadster) filter.cartype.push('roadster');
+        if(this.state.mobileTypeCabriolet) filter.cartype.push('cabriolet');
+
+        if(this.state.mobileNissan) filter.brand.push('nissan');
+        if(this.state.mobileMazda) filter.brand.push('mazda');
+        if(this.state.mobileToyota) filter.brand.push('toyota');
+        if(this.state.mobileHonda) filter.brand.push('honda');
+
+        this.props.dispatch(setFilterOptions(filter));
+        this.props.toggleFilterModal();
+
+    }
+
     render() {
         return (
             <Modal 
@@ -91,7 +142,7 @@ export default class FilterModal extends Component {
                             <View style={{flex:1}}>
                                 <View style={{flex:2}}><Text style={styles.sliderTitle}>Year</Text></View>
                                 <View style={styles.sliderValue}>
-                                    <Text style={styles.sliderTitle}>2006-2018</Text>
+                                    <Text style={styles.sliderTitle}>{this.state.multiYearValue[0]}-{this.state.multiYearValue[1]}</Text>
                                 </View>
                                 <View style={styles.sliderContainer}>
                                     <View style={styles.sliderText}>
@@ -120,7 +171,7 @@ export default class FilterModal extends Component {
                             <View style={{flex:1, paddingTop: 10}}>
                                 <View style={{flex:2}}><Text style={styles.sliderTitle}>Mileage</Text></View>
                                 <View style={styles.sliderValue}>
-                                    <Text style={styles.sliderTitle}>0-150K + KM</Text>
+                                    <Text style={styles.sliderTitle}>{this.state.multiMileageValue[0]}-{this.state.multiMileageValue[1]}K + KM</Text>
                                 </View>
                                 <View style={styles.sliderContainer}>
                                     <View style={styles.sliderText}>
@@ -132,7 +183,7 @@ export default class FilterModal extends Component {
                                             sliderLength={240}
                                             onValuesChange={this.multiMileageValuesChange}
                                             min={0}
-                                            max={150}
+                                            max={10}
                                             step={1}
                                             allowOverlap={false}
                                             containerStyle={styles.sliderContainerStyle}
@@ -149,7 +200,7 @@ export default class FilterModal extends Component {
                             <View style={{flex:1, paddingTop: 10}}>
                                 <View style={{flex:2}}><Text style={styles.sliderTitle}>Price</Text></View>
                                 <View style={styles.sliderValue}>
-                                    <Text style={styles.sliderTitle}>AED 0 - 200K+</Text>
+                                    <Text style={styles.sliderTitle}>AED {this.state.multiPriceValue[0]} - {this.state.multiPriceValue[1]}K+</Text>
                                 </View>
                                 <View style={styles.sliderContainer}>
                                     <View style={styles.sliderText}>
@@ -357,7 +408,7 @@ export default class FilterModal extends Component {
                         </View>
                         
                         <View style={{flex:1}}>
-                            <TouchableOpacity style={{flex:1, backgroundColor: '#007cca',alignItems:'center', justifyContent: 'center' }} onPress={()=>alert('asdfasdfa')}>
+                            <TouchableOpacity style={{flex:1, backgroundColor: '#007cca',alignItems:'center', justifyContent: 'center' }} onPress={this.applyBtnHandle}>
                                 <Text style={{fontSize:20, color: 'white'}}>Apply Filters</Text>
                             </TouchableOpacity>
                         </View>
@@ -425,3 +476,11 @@ const styles = StyleSheet.create({
         resizeMode:'stretch',
     }
 })
+
+function mapStateToProps(state){
+    return{
+        state:state
+    }
+}
+
+export default connect(mapStateToProps)(FilterModal);
