@@ -43,6 +43,7 @@ export function getDummyFav(){
     return dispatch=>{
         dispatch(handleResponse(types.GET_FAV_REQUEST,null))
         var result = dummyFavItem;
+        
         if(result.success){
             dispatch(handleResponse(types.GET_FAV_SUCCESS,result.data))
         }else{
