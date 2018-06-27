@@ -17,6 +17,7 @@ class Explore extends Component {
       isSortModalVisible: false,
       items:[],
       search:'',
+      favitemnames:[],
     }
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.toggleSortModal = this.toggleSortModal.bind(this);
@@ -24,15 +25,15 @@ class Explore extends Component {
   }
   componentDidMount(){
     this.doFilter(this.props.data,this.props.filter);
-
+    this.findFavItem(this.props.data,this.props.favItems)
   }
   componentWillReceiveProps(nextProps){
-    console.log("next====>",nextProps);
     this.doFilter(nextProps.data,nextProps.filter);
+    console.log("nextProps===>",nextProps);
+    this.findFavItem(nextProps.data,nextProps.favItems);
     
   }
   doFilter(data,filter){
-
     var result=[];
     data.map((item)=>{
       if((item.mileage>filter.milleageMin)&&(item.mileage<filter.milleageMax)&&(item.price<filter.priceMax)&&(item.price>filter.priceMin)&&(item.year>filter.yearMin)&&
@@ -44,7 +45,17 @@ class Explore extends Component {
     this.setState({
       items:result
     });
+  }
 
+  findFavItem(data, favData){
+    var result=[];
+    data.map((item)=>{
+      var obj1 = favData.find(function (obj) { return obj.name == item.name; });
+      if (obj1!=null) result.push(item.name)
+    })
+    this.setState({
+      favitemnames:result
+    })
   }
 
   toggleFilterModal(){
@@ -61,7 +72,6 @@ class Explore extends Component {
 
   _renderItem = ()=>{
     var result = [];
-    // return this.state.items;
     if(this.state.items.length==0){
       return [];
     }
@@ -71,8 +81,11 @@ class Explore extends Component {
       if(name.includes(search_txt))
         result.push(item);
     });
-    console.log(result);
     return result;
+  }
+
+  addFavItem = (item) => {
+
   }
 
   handleChange = (query)=>{
@@ -83,6 +96,7 @@ class Explore extends Component {
 
   render() {
     var renderedItem = this._renderItem();
+    console.log('state=====>',this.state);
     return (
       <View style={styles.container}>
         <Header navigation={this.props.navigation} toggleFilterModal={this.toggleFilterModal} toggleSortModal={this.toggleSortModal} handleChange = {this.handleChange} value = {this.state.search}/>
@@ -107,7 +121,7 @@ class Explore extends Component {
                   imageStyle={{resizeMode: 'stretch'}}
                   style={styles.itemImage}
                 >
-                  <Icon name='md-heart-outline' type='ionicon' size={20} color='white'/>
+                  <Icon name='star-o' type='font-awesome' size={20} color={this.state.favitemnames.includes(item.name)?'#007cca':'white'} onPress = {()=>this.addFavItem(item)}/>
                 </ImageBackground>
               </View>
               <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -199,6 +213,7 @@ function mapStateToProps(state){
   return{
     data:state.data.data,
     filter:state.filter.filter,
+    favItems:state.favItem.favItem,
     state:state
   }
 }

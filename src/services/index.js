@@ -1,2 +1,3 @@
 import getdata from './getData';
-export default {getdata};
+import setFavItem from './setFavItem';
+export default {getdata, setFavItem};

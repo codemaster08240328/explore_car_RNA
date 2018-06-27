@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, Image } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import {connect} from 'react-redux'
-import { getDummyData } from '../../actions/getData'
+import { getDummyData, getDummyFav } from '../../actions/getData'
 import { setFilterOptions } from '../../actions/filter'
 
 
@@ -11,6 +11,7 @@ class Splash extends Component {
     componentDidMount(){
         this.props.dispatch(setFilterOptions(null));
         this.props.dispatch(getDummyData());
+        this.props.dispatch(getDummyFav());
         setTimeout(()=>{
             const resetAction = StackActions.reset({
                 index: 0,

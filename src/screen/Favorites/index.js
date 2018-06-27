@@ -3,19 +3,25 @@ import { Text, StyleSheet, View, ImageBackground, TouchableOpacity } from 'react
 import { Icon, Button } from 'react-native-elements';
 import GridView from 'react-native-super-grid';
 
-import { CommonHeader } from '../../component'
-import { HeaderIcon } from '../../component'
+import { CommonHeader } from '../../component';
+import { HeaderIcon } from '../../component';
+import { connect } from 'react-redux';
 
-export default class Explore extends Component {
+class Explore extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      items:this.props.favItems
+    }
 
 
     this.handleDrawer = this.handleDrawer.bind(this);
     this.movePrevScreen = this.movePrevScreen.bind(this);
   }
   
+  
+
   handleDrawer(){
     this.props.navigation.openDrawer();
   }
@@ -43,7 +49,7 @@ export default class Explore extends Component {
         <View style={styles.gridContainer}>
           <GridView
             itemDimension={250}
-            items={items}
+            items={this.state.items}
             style={styles.gridView}
             spacing={0}
             renderItem={item => (
@@ -51,13 +57,13 @@ export default class Explore extends Component {
               <View style={{ flex: 10 }}>     
                 <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('Detail',{ name: item.name})}>        
                   <ImageBackground 
-                    source={require('../../asset/image/car.png')}
+                    source={item.img}
                     imageStyle={{resizeMode: 'stretch'}}
                     style={styles.itemImage}
                   >
                     <View style={styles.itemImageLabel}>
                       <Text style={{color: 'white', fontSize: 13, fontWeight: 'bold'}}>
-                        2017 Nissan Titan Crew
+                        {item.name}
                       </Text>
                       <HeaderIcon name='star-o' type='font-awesome' size={15} color='#007cca'/>
                     </View>
@@ -66,12 +72,12 @@ export default class Explore extends Component {
               </View>
               <View style={{ flex: 3 }}>
                 <View style={styles.itemDetail}>
-                  <Text style={{ fontSize: 12, color: '#ff0000', fontWeight: 'bold' }}>AED 76,670</Text>
-                  <Text style={{ fontSize: 12, color: '#1676a6', fontWeight: 'bold' }}>45,300KM</Text>
+                  <Text style={{ fontSize: 12, color: '#ff0000', fontWeight: 'bold' }}>AED {item.price}</Text>
+                  <Text style={{ fontSize: 12, color: '#1676a6', fontWeight: 'bold' }}>{item.mileage} KM</Text>
                 </View>
                 <View style={{flex:1,padding:5}}>
                   <Text style={{color: '#7f7f7f', fontSize: 12}}>
-                  you liked this car on jun 08 2018
+                  you liked this car on {item.date}
                   </Text>
                 </View>
               </View>
@@ -156,3 +162,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
+function mapStateToProps(state){
+  return {
+    favItems:state.favItem.favItem
+  }
+}
+
+export default connect(mapStateToProps)(Explore)

@@ -40,7 +40,7 @@ export const dummyData = {
 
         },
         {
-            name:'Mercedes Benz C 250',
+            name:'Mercedes Benz C 350',
             year:'2014',
             mileage:6589,
             price:49865,
@@ -70,7 +70,7 @@ export const dummyData = {
 
         },
         {
-            name:'Mercedes Benz C 250',
+            name:'Mercedes Benz C 450',
             year:'2014',
             mileage:7140,
             price:70670,
@@ -89,6 +89,56 @@ export const dummyData = {
             img:img2
 
         }
+    ]
+}
+
+export const dummyFavItem = {
+    success:true,
+    data:[
+        {
+            name:'Mercedes Benz C 250',
+            year:'2014',
+            mileage:7140,
+            price:70670,
+            mobileType:'minivan',
+            brand:'toyota',
+            img:img1,
+            date:'Jun 08, 2018'
+
+        },
+        {
+            name:'Nissan Patrol Platinum',
+            year:'2015',
+            mileage:7486,
+            price:67895,
+            mobileType:'cabriolet',
+            brand:'mazda',
+            img:img2,
+            date:'Jun 07, 2018'
+
+        },
+        {
+            name:'Lexus LX 450',
+            year:'2012',
+            mileage:5890,
+            price:45895,
+            mobileType:'coupe',
+            brand:'nissan',
+            img:img3,
+            date:'Jun 10, 2018'
+
+        },
+        {
+            name:'Mercedes Benz C 350',
+            year:'2014',
+            mileage:6589,
+            price:49865,
+            mobileType:'pickup',
+            brand:'honda',
+            img:img4,
+            date:'Jun 09, 2018'
+
+        },
     ]
 }
 // 'sedan, roadster, hatchback, sport car, coupe, pickup, cabriolet, minivan'
