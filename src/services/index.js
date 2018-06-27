@@ -1,3 +1,2 @@
-import getData from './getData';
-import getDummydata from './getDummydata';
-export default {getData, getDummydata};
+import getdata from './getData';
+export default {getdata};

@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default getData = (data) => {
+export default getdata = (data) => {
     var body = data
     const config = {
         url: '/',
